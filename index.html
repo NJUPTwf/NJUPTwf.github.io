@@ -71,6 +71,45 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-拷贝目录" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/05/11/%E6%8B%B7%E8%B4%9D%E7%9B%AE%E5%BD%95/" class="article-date">
+  <time class="dt-published" datetime="2021-05-11T05:47:53.000Z" itemprop="datePublished">2021-05-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/05/11/%E6%8B%B7%E8%B4%9D%E7%9B%AE%E5%BD%95/">java实现拷贝目录</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>##功能<br>      给定需要拷贝的目录路径以及目标目录,将此目录中所有文件拷贝到目标目录<br>##具体实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">import java.io.*;</span><br><span class="line"></span><br><span class="line">public class Copy &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        File srcFile &#x3D; new File(&quot;D:\\python记录&quot;); &#x2F;&#x2F; pathname:需要拷贝的目录</span><br><span class="line">        File destFile &#x3D; new File(&quot;D:\\uml&quot;); &#x2F;&#x2F; pathname:拷贝目标</span><br><span class="line">        copyDir(srcFile,destFile);</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 拷贝目录</span><br><span class="line">     * @param srcFile 需要拷贝的目录</span><br><span class="line">     * @param destFile 拷贝目标</span><br><span class="line">     *&#x2F;</span><br><span class="line">     private static void copyDir(File srcFile, File destFile) &#123;</span><br><span class="line">       &#x2F;&#x2F;递归结束条件,如果是一个文件,就结束当前递归</span><br><span class="line">       if(srcFile.isFile())&#123; &#x2F;&#x2F; 如果是一个文件,进行拷贝</span><br><span class="line">	  FileInputStream fileInputStream &#x3D; null;</span><br><span class="line">          FileOutputStream fileOutputStream &#x3D; null;</span><br><span class="line">           try &#123;</span><br><span class="line">               fileInputStream &#x3D; new FileInputStream(srcFile);</span><br><span class="line">               &#x2F;&#x2F;path为需要拷贝到的路径</span><br><span class="line">               String path &#x3D; destFile.getAbsolutePath().endsWith(&quot;\\&quot;)?destFile.getAbsolutePath():destFile.getAbsolutePath()+&quot;\\&quot;+srcFile.getAbsolutePath().substring(3);</span><br><span class="line">               fileOutputStream &#x3D; new FileOutputStream(path);</span><br><span class="line">               byte[] bytes &#x3D; new byte[1024*1024];</span><br><span class="line">               int readCount;</span><br><span class="line">               while((readCount &#x3D; fileInputStream.read(bytes))!&#x3D;-1)&#123;</span><br><span class="line">                   fileOutputStream.write(bytes,0,readCount);</span><br><span class="line">               &#125;</span><br><span class="line">               fileOutputStream.flush();</span><br><span class="line">           &#125; catch (FileNotFoundException e) &#123;</span><br><span class="line">               e.printStackTrace();</span><br><span class="line">           &#125; catch (IOException e) &#123;</span><br><span class="line">               e.printStackTrace();</span><br><span class="line">           &#125; finally &#123;</span><br><span class="line">               if (fileInputStream !&#x3D; null) &#123;</span><br><span class="line">                   try &#123;</span><br><span class="line">                       fileInputStream.close();</span><br><span class="line">                   &#125; catch (IOException e) &#123;</span><br><span class="line">                       e.printStackTrace();</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">               if (fileOutputStream !&#x3D; null) &#123;</span><br><span class="line">                   try &#123;</span><br><span class="line">                       fileOutputStream.close();</span><br><span class="line">                   &#125; catch (IOException e) &#123;</span><br><span class="line">                       e.printStackTrace();</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">           return;</span><br><span class="line">       &#125;</span><br><span class="line">       File[] files &#x3D;srcFile.listFiles();</span><br><span class="line">       for (File file:files) &#123;</span><br><span class="line">           if(file.isDirectory())&#123;</span><br><span class="line">               &#x2F;&#x2F;如果是一个目录,就在目标目录下创建该目录</span><br><span class="line">               String srcDir &#x3D; file.getAbsolutePath();</span><br><span class="line">               String destDir &#x3D; destFile.getAbsolutePath().endsWith(&quot;\\&quot;)?destFile.getAbsolutePath():destFile.getAbsolutePath()+&quot;\\&quot;+srcDir.substring(3);</span><br><span class="line">               File newFile &#x3D; new File(destDir);</span><br><span class="line">               if(!newFile.exists())&#123;</span><br><span class="line">                   newFile.mkdirs();</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">           copyDir(file,destFile); &#x2F;&#x2F;递归调用,获取当前目录下所有子目录</span><br><span class="line">       &#125;</span><br><span class="line">    </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://njuptwf.github.io.git/2021/05/11/%E6%8B%B7%E8%B4%9D%E7%9B%AE%E5%BD%95/" data-id="ckojmed9k0004zwuy6mtd0ewr" data-title="java实现拷贝目录" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-java日历" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/04/27/java%E6%97%A5%E5%8E%86/" class="article-date">
@@ -103,7 +142,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://njuptwf.github.io.git/2021/04/27/java%E6%97%A5%E5%8E%86/" data-id="cknzeo4aj0001u8uyhoyo5ji3" data-title="java日历" class="article-share-link">Share</a>
+      <a data-url="https://njuptwf.github.io.git/2021/04/27/java%E6%97%A5%E5%8E%86/" data-id="ckojmed720001zwuy2118astf" data-title="java日历" class="article-share-link">Share</a>
       
       
       
@@ -156,7 +195,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://njuptwf.github.io.git/2021/04/26/hello-world/" data-id="cknzeo4af0000u8uy2kvp8al4" data-title="Hello World" class="article-share-link">Share</a>
+      <a data-url="https://njuptwf.github.io.git/2021/04/26/hello-world/" data-id="ckojmed6y0000zwuybecpb779" data-title="Hello World" class="article-share-link">Share</a>
       
       
       
@@ -200,7 +239,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li></ul>
     </div>
   </div>
 
@@ -211,6 +250,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/05/11/%E6%8B%B7%E8%B4%9D%E7%9B%AE%E5%BD%95/">java实现拷贝目录</a>
+          </li>
         
           <li>
             <a href="/2021/04/27/java%E6%97%A5%E5%8E%86/">java日历</a>
